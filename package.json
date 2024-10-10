@@ -1,0 +1,17 @@
+{
+  "name": "atividade_bets",
+  "version": "1.0.0",
+  "description": "Atividade sobre Sistema de Cadastro de Suspeitos Envolvidos em Lavagem de Dinheiro no Jogo de Apostas",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "SENAI",
+    "back-end",
+    "JavaScript",
+    "NodeJS"
+  ],
+  "author": "Sophia Balico",
+  "license": "MIT"
+}
