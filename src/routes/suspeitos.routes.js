@@ -60,7 +60,7 @@ suspeitosRoutes.post("/", (req, res) => {
       nivel_de_suspeita,
     };
   
-    // Adiciona o novo candidato ao array de suspeitos
+    // Adiciona o novo suspeito ao array de suspeitos
     suspeitos.push(novoSuspeito);
   
     return res.status(201).json({
@@ -69,7 +69,7 @@ suspeitosRoutes.post("/", (req, res) => {
     });
 });
   
-// Rota para listar todos os candidatos
+// Rota para listar todos os suspeitos
 suspeitosRoutes.get("/", (req, res) => {
     return res.status(200).json(suspeitos);
   });
@@ -87,8 +87,64 @@ suspeitosRoutes.get("/", (req, res) => {
         .status(404)
         .json({ message: `Suspeito com id ${id} não encontrado!` });
     }
+
   
     return res.status(200).json(suspeito);
   });
+
+  // Rota para atualizar um suspeito pelo id
+suspeitosRoutes.put("/:id", (req, res) => {
+    const { id } = req.params;
+    const { nome, profissao, envolvimento_em_postas, nivel_de_suspeita} = req.body;
+  
+    // Busca um suspeito pelo id no array de suspeitos
+    const suspeito = suspeitos.find((procurado) => procurado.id == id);
+  
+    // Verifica se o suspeito foi encontrado
+    if (!suspeito) {
+      return res
+        .status(404)
+        .json({ message: `suspeito com id ${id} não encontrado!` });
+    }
+  
+    // Validação dos campos nome e profissao
+    if (!nome || !profissao) {
+      return res.status(400).send({
+        message: "O nome ou o profissao não foi preenchido",
+      });
+    }
+  
+    suspeito.nome = nome;
+    suspeito.profissao = profissao;
+    suspeito.envolvimento_em_postas = envolvimento_em_postas;
+    suspeito.nivel_de_suspeita = nivel_de_suspeita;
+  
+    return res.status(200).json({
+      message: "suspeito atualizado com sucesso!",
+      suspeito,
+    });
+  });
+  
+  suspeitosRoutes.delete("/:id", (req, res) => {
+    const { id } = req.params;
+  
+    // Busca um suspeito pelo id no array de suspeitos
+    const suspeito = suspeitos.find((procurado) => procurado.id == id);
+  
+    // Verifica se o suspeito foi encontrado
+    if (!suspeito) {
+      return res
+        .status(404)
+        .json({ message: `suspeito com id ${id} não encontrado!` });
+    }
+          
+        // Remove o suspeito do array de suspeitos
+        suspeitos = suspeitos.filter((procurado) => procurado.id != id);
+      
+        return res.status(200).json({
+          message: "Suspeito removido com sucesso!",
+          suspeito,
+        });
+      });
 
 export default suspeitosRoutes;
